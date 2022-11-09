@@ -82,6 +82,31 @@ router.get("/age/:age", (req, res) => {
 
   });
 
+  // add employee
+  router.post("/:id", (req, res)=>{
+    const { id } = req.params;
+
+    console.log(req.body);
+
+    let lastItem =employees[employees.length - 1];
+    console.log(req.body);
+    let employee = {};
+    
+    // employee.id = employees[employees.length - 1].id + 1;
+    employee.id = lastItem.id + 1;
+    employee.name = req.body.name;
+    employee.title = req.body.title;
+    employee.age = req.body.age;
+    employee.gender = req.body.gender;
+    employee.languages = req.body.languages;
+
+    // simulate adding data to object collection
+    employees.push(employee);
+
+    res.status(200).send( employee );
+
+  });
+
   router.delete("/:id",(req, res)=>{
     const { id } = req.params;
     employees = employees.filter(item=>item.id != Number(id));
