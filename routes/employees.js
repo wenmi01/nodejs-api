@@ -18,7 +18,7 @@ router.get("/", (req, res) => {
 });
 
 router.get("/count/all", (req, res) => {
-  res.status(200).send({total:employees.length});
+  res.status(200).send({total: employees.length});
 });
 
 router.get("/:id", (req, res,next) => {
@@ -26,7 +26,7 @@ router.get("/:id", (req, res,next) => {
   let employee = employees.find((item) => {
       return item.id === Number(id);
   });
-  res.status(200).send(employee ? employee : "Record not found!");
+  res.status(200).send(employee ? employee : {status: "Record not found!"});
 });
 
 router.get("/name/:keyword", (req, res) => {
@@ -109,9 +109,14 @@ router.get("/age/:age", (req, res) => {
 
   router.delete("/:id",(req, res)=>{
     const { id } = req.params;
+    let employees_len = employees.length;
     employees = employees.filter(item=>item.id != Number(id));
 
-    res.status(200).send("Record " + id + " has been deleted.");
+    // res.status(200).send("Record " + id + " has been deleted.");
+
+    // res.status(200).send({ status: "Record " + id + " has been deleted.", id: id} );
+
+   employees_len != employees.length ? res.status(200).send({ status: "Record " + id + " has been deleted.", id: id} ) : res.status(400).send("Record not found");
 
   });
   
